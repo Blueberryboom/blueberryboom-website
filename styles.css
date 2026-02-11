@@ -158,13 +158,9 @@
       font-size: 0.9rem;
       font-family: inherit;
       font-weight: 500;
-      cursor: pointer;
       transition: all 0.2s ease;
       box-shadow: var(--shadow-sm);
       appearance: none;
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      padding-right: 2.5rem;
     }
     
     .lang-select:hover {
