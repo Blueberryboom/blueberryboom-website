@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BBGames Discord Bot</title>
+  <meta name="description" content="A powerful games bot designed to replace your 200 different game bots with one!">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+<body>
+  <div class="ambient"></div>
+  
+  <nav class="nav" id="navbar">
+    <div class="nav-inner">
+      <div class="logo">BBGames</div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-tag" data-i18n="hero.tag">Available for Commission</div>
+        <h1>An <span>All-in-one gaming</span><br>discord bot</h1>
+        <p class="hero-desc" data-i18n="hero.desc">A powerful games bot designed to replace your 200 different game bots with one!</p>
+        <div class="hero-actions">
+          <a href="https://discordapp.com/users/1148212880722890783" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            💬 <span data-i18n="hero.discord">Join the Discord!</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label" data-i18n="projects.label">Projects</p>
+          <h2 class="section-title" data-i18n="projects.title">What I'm Building</h2>
+        </div>
+        
+        <div class="projects-grid">
+          <div class="project-card featured">
+            <div class="project-header">
+              <span class="project-icon">🍋</span>
+              <div class="project-meta">
+                <h3>Lemon Host</h3>
+                <span class="project-tagline" data-i18n="projects.lemon.tagline">Free Bot Hosting — No Card Required</span>
+              </div>
+              <span class="project-badge" data-i18n="projects.lemon.role">Owner + Developer</span>
+            </div>
+            <p class="project-desc" data-i18n="projects.lemon.desc">Get your Discord bot running 24/7 with zero cost and zero hassle. Completely free hosting for everyone.</p>
+            <div class="project-links">
+              <a href="https://discord.gg/tkN6BY2yM4" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-invite">
+                <span data-i18n="projects.lemon.cta">🚀 Get Started Free</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-header">
+              <span class="project-icon">🔷</span>
+              <div class="project-meta">
+                <h3>Adfinity</h3>
+                <span class="project-tagline" data-i18n="projects.adfinity.tagline">The Server Growth Companion</span>
+              </div>
+              <span class="project-badge" data-i18n="projects.adfinity.role">Owner + Developer</span>
+            </div>
+            <p class="project-desc" data-i18n="projects.adfinity.desc">Smart Bumps • Partner Logs • Free Analytics</p>
+            <p class="project-highlight" data-i18n="projects.adfinity.premium">✨ Premium: Auto-Bump + Auto-Partner + Custom Branding</p>
+            <div class="project-links">
+              <a href="https://discord.gg/2KmJSMN8BU" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-discord">Discord</a>
+              <a href="https://discord.com/oauth2/authorize?client_id=1408143763569643660" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-invite">
+                <span data-i18n="projects.invite">Invite Bot</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-header">
+              <span class="project-icon">👑</span>
+              <div class="project-meta">
+                <h3>Advertising Kingdom</h3>
+                <span class="project-tagline" data-i18n="projects.adking.tagline">Promote Without Limits</span>
+              </div>
+              <span class="project-badge" data-i18n="projects.adking.role">Head of Development</span>
+            </div>
+            <p class="project-desc" data-i18n="projects.adking.desc">Reach 16,000+ members instantly. The ultimate advertising network for Discord.</p>
+            <div class="project-links">
+              <a href="https://discord.com/invite/PnMjsapgH5" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-discord">Join Server</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label" data-i18n="skills.label">Expertise</p>
+          <h2 class="section-title" data-i18n="skills.title">Tech Stack</h2>
+        </div>
+        
+        <div class="skills-grid">
+          <div class="skill-card">
+            <h4 data-i18n="skills.languages">Languages</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">HTML/CSS</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4 data-i18n="skills.frameworks">Frameworks</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Discord.py</span>
+              <span class="skill-tag">Flask</span>
+              <span class="skill-tag">Tailwind</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4 data-i18n="skills.databases">Databases</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">MongoDB</span>
+              <span class="skill-tag">JSON</span>
+              <span class="skill-tag">SQLite</span>
+            </div>
+          </div>
+          <div class="skill-card">
+            <h4 data-i18n="skills.platforms">Platforms</h4>
+            <div class="skill-tags">
+              <span class="skill-tag">Render</span>
+              <span class="skill-tag">Railway</span>
+              <span class="skill-tag">Replit</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-label" data-i18n="services.label">Services</p>
+          <h2 class="section-title" data-i18n="services.title">What I Offer</h2>
+        </div>
+        
+        <div class="services-grid">
+          <div class="service-item">
+            <div class="service-icon">🤖</div>
+            <span class="service-text" data-i18n="services.bots">Custom Discord Bots</span>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🔧</div>
+            <span class="service-text" data-i18n="services.bugs">Bug Fixes & Optimization</span>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">📊</div>
+            <span class="service-text" data-i18n="services.panels">Dashboards & Panels</span>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">⚡</div>
+            <span class="service-text" data-i18n="services.api">Backend APIs</span>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">☁️</div>
+            <span class="service-text" data-i18n="services.hosting">Hosting & Deployment</span>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🔄</div>
+            <span class="service-text" data-i18n="services.automation">Automation Systems</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">Blueberry Network</div>
+        <div class="footer-links">
+          <a href="https://discordapp.com/users/1148212880722890783" target="_blank" rel="noopener noreferrer" class="footer-link">Discord</a>
+          <a href="https://devaaron.eu" target="_blank" rel="noopener noreferrer" class="footer-link">Website</a>
+          <a href="mailto:devaaron.dc@gmail.com" class="footer-link">Email</a>
+        </div>
+        <p class="footer-copy">© 2026 Blueberry Network. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
