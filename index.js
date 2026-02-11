@@ -3,29 +3,791 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BBGames Discord Bot</title>
-  <meta name="description" content="A powerful games bot designed to replace your 200 different game bots with one!">
+  <title>Dev Aaron | Discord Bot Developer</title>
+  <meta name="description" content="Full-stack Discord developer specializing in advanced bots and automation systems">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" type="text/css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #141420;
+      --bg-tertiary: #1e1e2e;
+      --bg-card: #1a1a28;
+      --text-primary: #ffffff;
+      --text-secondary: #b4b4c8;
+      --text-muted: #7d7d99;
+      --accent: #8b5cf6;
+      --accent-hover: #a78bfa;
+      --accent-glow: rgba(139, 92, 246, 0.5);
+      --success: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.3);
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(139, 92, 246, 0.3);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.15);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .light-mode {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-tertiary: #e9ecef;
+      --bg-card: #ffffff;
+      --text-primary: #1a1a2e;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --border: rgba(0,0,0,0.08);
+      --border-hover: rgba(139, 92, 246, 0.4);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
+      --accent-glow: rgba(139, 92, 246, 0.2);
+      --success-glow: rgba(16, 185, 129, 0.15);
+    }
+
+    html { 
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Animated Background */
+    .ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.6;
+    }
+    
+    .ambient::before,
+    .ambient::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: float 20s ease-in-out infinite;
+    }
+    
+    .ambient::before {
+      top: 10%;
+      left: 20%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+      animation: float 18s ease-in-out infinite;
+    }
+    
+    .ambient::after {
+      bottom: 10%;
+      right: 20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+      animation: float 22s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.25rem 0;
+      background: linear-gradient(to bottom, var(--bg-primary) 0%, rgba(10, 10, 15, 0.95) 80%, transparent 100%);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    
+    .light-mode .nav {
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.9) 80%, transparent 100%);
+    }
+    
+    .nav.scrolled {
+      padding: 0.875rem 0;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 50%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.03em;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.05);
+    }
+    
+    .nav-controls {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+    
+    .lang-select {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 0.625rem 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2.5rem;
+    }
+    
+    .lang-select:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
+    }
+    
+    .lang-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    
+    .theme-toggle {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .theme-toggle:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-hover);
+      transform: translateY(-1px) rotate(15deg);
+    }
+    
+    .theme-toggle:active {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 0 4rem;
+    }
+    
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(139, 92, 246, 0.06));
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      padding: 0.625rem 1.25rem;
+      border-radius: 100px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent-hover);
+      margin-bottom: 2rem;
+      width: fit-content;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+    }
+    
+    .hero-tag::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.3); }
+    }
+    
+    .hero h1 {
+      font-size: clamp(2.75rem, 9vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 40%, #60a5fa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .hero-desc {
+      font-size: 1.35rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+      font-weight: 400;
+    }
+    
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 1rem 2rem;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .btn:hover::before {
+      opacity: 1;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+      color: white;
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px var(--accent-glow);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(-1px);
+    }
+    
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1.5px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* Section Styles */
+    section {
+      padding: 6rem 0;
+      position: relative;
+    }
+    
+    .section-header {
+      margin-bottom: 4rem;
+    }
+    
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    
+    .section-title {
+      font-size: clamp(2.25rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+    
+    .section-desc {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      gap: 1.75rem;
+    }
+    
+    .project-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 2.5rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.03), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .project-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg), 0 0 0 1px rgba(139, 92, 246, 0.1);
+    }
+    
+    .project-card:hover::before {
+      opacity: 1;
+    }
+    
+    .project-card.featured {
+      border-color: rgba(16, 185, 129, 0.3);
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.03) 100%);
+    }
+    
+    .project-card.featured:hover {
+      border-color: rgba(16, 185, 129, 0.5);
+      box-shadow: 0 20px 60px rgba(16, 185, 129, 0.15), 0 0 0 1px rgba(16, 185, 129, 0.2);
+    }
+    
+    .project-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    
+    .project-icon {
+      font-size: 3rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    }
+    
+    .project-meta {
+      flex: 1;
+    }
+    
+    .project-meta h3 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    
+    .project-tagline {
+      font-size: 0.95rem;
+      color: var(--accent-hover);
+      font-weight: 600;
+    }
+    
+    .featured .project-tagline {
+      color: var(--success);
+    }
+    
+    .project-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      padding: 0.5rem 1.125rem;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+    }
+    
+    .project-desc {
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      font-size: 1rem;
+      line-height: 1.7;
+      position: relative;
+    }
+    
+    .project-highlight {
+      color: var(--accent-hover);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      font-weight: 500;
+      position: relative;
+    }
+    
+    .project-links {
+      display: flex;
+      gap: 0.875rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    
+    .project-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .project-btn-discord {
+      background: #5865F2;
+      color: white;
+    }
+    
+    .project-btn-discord:hover {
+      background: #4752c4;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(88, 101, 242, 0.3);
+    }
+    
+    .project-btn-invite {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+    
+    .project-btn-invite:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px var(--success-glow);
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    
+    .skill-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .skill-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .skill-card h4 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+    
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.625rem;
+    }
+    
+    .skill-tag {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+    }
+    
+    .skill-tag:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    
+    .service-item {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 1.75rem 2rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .service-item:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+      border-radius: 14px;
+      color: var(--accent);
+      font-size: 1.5rem;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+    
+    .service-text {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1.5px solid var(--border);
+      padding: 4rem 0 3rem;
+      margin-top: 4rem;
+      background: var(--bg-secondary);
+    }
+    
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    
+    .footer-brand {
+      font-size: 1.75rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), #a78bfa, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.03em;
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 3rem;
+    }
+    
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    
+    .footer-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    
+    .footer-link:hover {
+      color: var(--accent);
+    }
+    
+    .footer-link:hover::after {
+      width: 100%;
+    }
+    
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-inner { padding: 0 1.25rem; }
+      .container { padding: 0 1.25rem; }
+      .hero { padding: 6rem 0 3rem; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero-desc { font-size: 1.125rem; }
+      .section-title { font-size: 2rem; }
+      .project-card { padding: 1.75rem; }
+      .project-badge { 
+        position: static; 
+        margin-bottom: 1rem; 
+        width: fit-content; 
+      }
+      .project-icon { font-size: 2.5rem; }
+      .footer-links { 
+        flex-wrap: wrap; 
+        justify-content: center; 
+        gap: 2rem; 
+      }
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-actions {
+        flex-direction: column;
+        width: 100%;
+      }
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .nav-controls {
+        gap: 0.5rem;
+      }
+      .lang-select {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+        padding-right: 2.25rem;
+      }
+      .theme-toggle {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    /* Smooth Scroll Padding */
+    section[id] {
+      scroll-margin-top: 100px;
+    }
+  </style>
 </head>
 <body>
   <div class="ambient"></div>
   
   <nav class="nav" id="navbar">
     <div class="nav-inner">
-      <div class="logo">BBGames</div>
+      <div class="logo">Dev Aaron</div>
+      <div class="nav-controls">
+        <select id="langSelect" class="lang-select" aria-label="Select Language">
+          <option value="en">🇬🇧 EN</option>
+          <option value="es">🇪🇸 ES</option>
+          <option value="fr">🇫🇷 FR</option>
+          <option value="de">🇩🇪 DE</option>
+          <option value="pt">🇵🇹 PT</option>
+          <option value="nl">🇳🇱 NL</option>
+          <option value="pl">🇵🇱 PL</option>
+          <option value="ru">🇷🇺 RU</option>
+        </select>
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle Theme">🌙</button>
+      </div>
     </div>
   </nav>
 
   <main>
     <section class="hero">
       <div class="container">
-        <div class="hero-tag" data-i18n="hero.tag">Available for Commission</div>
-        <h1>An <span>All-in-one gaming</span><br>discord bot</h1>
-        <p class="hero-desc" data-i18n="hero.desc">A powerful games bot designed to replace your 200 different game bots with one!</p>
+        <div class="hero-tag" data-i18n="hero.tag">Available for Projects</div>
+        <h1>Building <span>Discord Bots</span><br>That Scale</h1>
+        <p class="hero-desc" data-i18n="hero.desc">Full-stack developer crafting powerful automation systems and bots for communities that want to grow.</p>
         <div class="hero-actions">
           <a href="https://discordapp.com/users/1148212880722890783" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-            💬 <span data-i18n="hero.discord">Join the Discord!</span>
+            💬 <span data-i18n="hero.discord">Connect on Discord</span>
           </a>
         </div>
       </div>
@@ -177,16 +939,349 @@
   <footer>
     <div class="container">
       <div class="footer-inner">
-        <div class="footer-brand">Blueberry Network</div>
+        <div class="footer-brand">Dev Aaron</div>
         <div class="footer-links">
           <a href="https://discordapp.com/users/1148212880722890783" target="_blank" rel="noopener noreferrer" class="footer-link">Discord</a>
           <a href="https://devaaron.eu" target="_blank" rel="noopener noreferrer" class="footer-link">Website</a>
           <a href="mailto:devaaron.dc@gmail.com" class="footer-link">Email</a>
         </div>
-        <p class="footer-copy">© 2026 Blueberry Network. All rights reserved.</p>
+        <p class="footer-copy">© 2024 Dev Aaron. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
+  <script>
+    // Translations
+    const translations = {
+      en: {
+        "hero.tag": "Available for Projects",
+        "hero.desc": "Full-stack developer crafting powerful automation systems and bots for communities that want to grow.",
+        "hero.discord": "Connect on Discord",
+        "hero.website": "Visit Website",
+        "projects.label": "Projects",
+        "projects.title": "What I'm Building",
+        "projects.invite": "Invite Bot",
+        "projects.lemon.tagline": "Free Bot Hosting — No Card Required",
+        "projects.lemon.role": "Owner + Developer",
+        "projects.lemon.desc": "Get your Discord bot running 24/7 with zero cost and zero hassle. Completely free hosting for everyone.",
+        "projects.lemon.cta": "🚀 Get Started Free",
+        "projects.adfinity.tagline": "The Server Growth Companion",
+        "projects.adfinity.role": "Owner + Developer",
+        "projects.adfinity.desc": "Smart Bumps • Partner Logs • Free Analytics",
+        "projects.adfinity.premium": "✨ Premium: Auto-Bump + Auto-Partner + Custom Branding",
+        "projects.adking.tagline": "Promote Without Limits",
+        "projects.adking.role": "Head of Development",
+        "projects.adking.desc": "Reach 16,000+ members instantly. The ultimate advertising network for Discord.",
+        "skills.label": "Expertise",
+        "skills.title": "Tech Stack",
+        "skills.languages": "Languages",
+        "skills.frameworks": "Frameworks",
+        "skills.databases": "Databases",
+        "skills.platforms": "Platforms",
+        "services.label": "Services",
+        "services.title": "What I Offer",
+        "services.bots": "Custom Discord Bots",
+        "services.bugs": "Bug Fixes & Optimization",
+        "services.panels": "Dashboards & Panels",
+        "services.api": "Backend APIs",
+        "services.hosting": "Hosting & Deployment",
+        "services.automation": "Automation Systems"
+      },
+      es: {
+        "hero.tag": "Disponible para Proyectos",
+        "hero.desc": "Desarrollador full-stack creando sistemas de automatización y bots para comunidades que quieren crecer.",
+        "hero.discord": "Conectar en Discord",
+        "hero.website": "Visitar Web",
+        "projects.label": "Proyectos",
+        "projects.title": "Lo Que Construyo",
+        "projects.invite": "Invitar Bot",
+        "projects.lemon.tagline": "Hosting Gratis — Sin Tarjeta",
+        "projects.lemon.role": "Propietario + Dev",
+        "projects.lemon.desc": "Tu bot Discord 24/7 sin costo. Hosting gratuito para todos.",
+        "projects.lemon.cta": "🚀 Empezar Gratis",
+        "projects.adfinity.tagline": "El Compañero de Crecimiento",
+        "projects.adfinity.role": "Propietario + Dev",
+        "projects.adfinity.desc": "Smart Bumps • Partner Logs • Analytics Gratis",
+        "projects.adfinity.premium": "✨ Premium: Auto-Bump + Auto-Partner + Branding",
+        "projects.adking.tagline": "Promociona Sin Límites",
+        "projects.adking.role": "Jefe de Desarrollo",
+        "projects.adking.desc": "Alcanza 16,000+ miembros al instante.",
+        "skills.label": "Experiencia",
+        "skills.title": "Stack Técnico",
+        "skills.languages": "Lenguajes",
+        "skills.frameworks": "Frameworks",
+        "skills.databases": "Bases de Datos",
+        "skills.platforms": "Plataformas",
+        "services.label": "Servicios",
+        "services.title": "Lo Que Ofrezco",
+        "services.bots": "Bots Discord Personalizados",
+        "services.bugs": "Corrección de Errores",
+        "services.panels": "Dashboards y Paneles",
+        "services.api": "APIs Backend",
+        "services.hosting": "Hosting y Deploy",
+        "services.automation": "Automatización"
+      },
+      fr: {
+        "hero.tag": "Disponible pour Projets",
+        "hero.desc": "Développeur full-stack créant des systèmes d'automatisation et bots pour les communautés en croissance.",
+        "hero.discord": "Discord",
+        "hero.website": "Site Web",
+        "projects.label": "Projets",
+        "projects.title": "Ce Que Je Construis",
+        "projects.invite": "Inviter Bot",
+        "projects.lemon.tagline": "Hébergement Gratuit — Sans Carte",
+        "projects.lemon.role": "Propriétaire + Dev",
+        "projects.lemon.desc": "Votre bot Discord 24/7 sans frais. Hébergement gratuit pour tous.",
+        "projects.lemon.cta": "🚀 Commencer",
+        "projects.adfinity.tagline": "Le Compagnon de Croissance",
+        "projects.adfinity.role": "Propriétaire + Dev",
+        "projects.adfinity.desc": "Smart Bumps • Partner Logs • Analytics Gratuits",
+        "projects.adfinity.premium": "✨ Premium: Auto-Bump + Auto-Partner + Branding",
+        "projects.adking.tagline": "Promouvoir Sans Limites",
+        "projects.adking.role": "Chef du Développement",
+        "projects.adking.desc": "Atteignez 16,000+ membres instantanément.",
+        "skills.label": "Expertise",
+        "skills.title": "Stack Technique",
+        "skills.languages": "Langages",
+        "skills.frameworks": "Frameworks",
+        "skills.databases": "Bases de Données",
+        "skills.platforms": "Plateformes",
+        "services.label": "Services",
+        "services.title": "Ce Que J'Offre",
+        "services.bots": "Bots Discord Personnalisés",
+        "services.bugs": "Correction de Bugs",
+        "services.panels": "Dashboards et Panneaux",
+        "services.api": "APIs Backend",
+        "services.hosting": "Hébergement et Deploy",
+        "services.automation": "Automatisation"
+      },
+      de: {
+        "hero.tag": "Verfügbar für Projekte",
+        "hero.desc": "Full-Stack Entwickler für Automatisierungssysteme und Bots für wachsende Communities.",
+        "hero.discord": "Discord",
+        "hero.website": "Webseite",
+        "projects.label": "Projekte",
+        "projects.title": "Was Ich Baue",
+        "projects.invite": "Bot Einladen",
+        "projects.lemon.tagline": "Gratis Hosting — Keine Karte",
+        "projects.lemon.role": "Inhaber + Dev",
+        "projects.lemon.desc": "Dein Discord Bot 24/7 kostenlos. Gratis Hosting für alle.",
+        "projects.lemon.cta": "🚀 Kostenlos Starten",
+        "projects.adfinity.tagline": "Der Wachstumsbegleiter",
+        "projects.adfinity.role": "Inhaber + Dev",
+        "projects.adfinity.desc": "Smart Bumps • Partner Logs • Gratis Analytics",
+        "projects.adfinity.premium": "✨ Premium: Auto-Bump + Auto-Partner + Branding",
+        "projects.adking.tagline": "Werben Ohne Grenzen",
+        "projects.adking.role": "Entwicklungsleiter",
+        "projects.adking.desc": "Erreiche 16,000+ Mitglieder sofort.",
+        "skills.label": "Expertise",
+        "skills.title": "Tech Stack",
+        "skills.languages": "Sprachen",
+        "skills.frameworks": "Frameworks",
+        "skills.databases": "Datenbanken",
+        "skills.platforms": "Plattformen",
+        "services.label": "Dienste",
+        "services.title": "Was Ich Anbiete",
+        "services.bots": "Discord Bots",
+        "services.bugs": "Fehlerbehebung",
+        "services.panels": "Dashboards",
+        "services.api": "Backend APIs",
+        "services.hosting": "Hosting & Deploy",
+        "services.automation": "Automatisierung"
+      },
+      pt: {
+        "hero.tag": "Disponível para Projetos",
+        "hero.desc": "Desenvolvedor full-stack criando sistemas de automação e bots para comunidades em crescimento.",
+        "hero.discord": "Discord",
+        "hero.website": "Website",
+        "projects.label": "Projetos",
+        "projects.title": "O Que Construo",
+        "projects.invite": "Convidar Bot",
+        "projects.lemon.tagline": "Hosting Grátis — Sem Cartão",
+        "projects.lemon.role": "Proprietário + Dev",
+        "projects.lemon.desc": "Seu bot Discord 24/7 sem custo. Hosting gratuito para todos.",
+        "projects.lemon.cta": "🚀 Começar Grátis",
+        "projects.adfinity.tagline": "O Companheiro de Crescimento",
+        "projects.adfinity.role": "Proprietário + Dev",
+        "projects.adfinity.desc": "Smart Bumps • Partner Logs • Analytics Grátis",
+        "projects.adfinity.premium": "✨ Premium: Auto-Bump + Auto-Partner + Branding",
+        "projects.adking.tagline": "Promova Sem Limites",
+        "projects.adking.role": "Chefe de Desenvolvimento",
+        "projects.adking.desc": "Alcance 16,000+ membros instantaneamente.",
+        "skills.label": "Expertise",
+        "skills.title": "Stack Técnico",
+        "skills.languages": "Linguagens",
+        "skills.frameworks": "Frameworks",
+        "skills.databases": "Bancos de Dados",
+        "skills.platforms": "Plataformas",
+        "services.label": "Serviços",
+        "services.title": "O Que Ofereço",
+        "services.bots": "Bots Discord",
+        "services.bugs": "Correção de Bugs",
+        "services.panels": "Dashboards",
+        "services.api": "APIs Backend",
+        "services.hosting": "Hosting e Deploy",
+        "services.automation": "Automação"
+      },
+      nl: {
+        "hero.tag": "Beschikbaar voor Projecten",
+        "hero.desc": "Full-stack ontwikkelaar voor automatiseringssystemen en bots voor groeiende communities.",
+        "hero.discord": "Discord",
+        "hero.website": "Website",
+        "projects.label": "Projecten",
+        "projects.title": "Wat Ik Bouw",
+        "projects.invite": "Bot Uitnodigen",
+        "projects.lemon.tagline": "Gratis Hosting — Geen Kaart",
+        "projects.lemon.role": "Eigenaar + Dev",
+        "projects.lemon.desc": "Je Discord bot 24/7 gratis. Gratis hosting voor iedereen.",
+        "projects.lemon.cta": "🚀 Gratis Starten",
+        "projects.adfinity.tagline": "De Groei Partner",
+        "projects.adfinity.role": "Eigenaar + Dev",
+        "projects.adfinity.desc": "Smart Bumps • Partner Logs • Gratis Analytics",
+        "projects.adfinity.premium": "✨ Premium: Auto-Bump + Auto-Partner + Branding",
+        "projects.adking.tagline": "Promoten Zonder Grenzen",
+        "projects.adking.role": "Hoofd Ontwikkeling",
+        "projects.adking.desc": "Bereik 16,000+ leden direct.",
+        "skills.label": "Expertise",
+        "skills.title": "Tech Stack",
+        "skills.languages": "Talen",
+        "skills.frameworks": "Frameworks",
+        "skills.databases": "Databases",
+        "skills.platforms": "Platforms",
+        "services.label": "Diensten",
+        "services.title": "Wat Ik Aanbied",
+        "services.bots": "Discord Bots",
+        "services.bugs": "Bug Fixes",
+        "services.panels": "Dashboards",
+        "services.api": "Backend APIs",
+        "services.hosting": "Hosting & Deploy",
+        "services.automation": "Automatisering"
+      },
+      pl: {
+        "hero.tag": "Dostępny dla Projektów",
+        "hero.desc": "Full-stack developer tworzący systemy automatyzacji i boty dla rosnących społeczności.",
+        "hero.discord": "Discord",
+        "hero.website": "Strona",
+        "projects.label": "Projekty",
+        "projects.title": "Co Buduję",
+        "projects.invite": "Zaproś Bota",
+        "projects.lemon.tagline": "Darmowy Hosting — Bez Karty",
+        "projects.lemon.role": "Właściciel + Dev",
+        "projects.lemon.desc": "Twój bot Discord 24/7 za darmo. Darmowy hosting dla wszystkich.",
+        "projects.lemon.cta": "🚀 Zacznij Za Darmo",
+        "projects.adfinity.tagline": "Towarzysz Wzrostu",
+        "projects.adfinity.role": "Właściciel + Dev",
+        "projects.adfinity.desc": "Smart Bumps • Partner Logs • Darmowe Analytics",
+        "projects.adfinity.premium": "✨ Premium: Auto-Bump + Auto-Partner + Branding",
+        "projects.adking.tagline": "Promuj Bez Limitów",
+        "projects.adking.role": "Szef Rozwoju",
+        "projects.adking.desc": "Dotrzeć do 16,000+ członków natychmiast.",
+        "skills.label": "Ekspertyza",
+        "skills.title": "Stack Technologiczny",
+        "skills.languages": "Języki",
+        "skills.frameworks": "Frameworki",
+        "skills.databases": "Bazy Danych",
+        "skills.platforms": "Platformy",
+        "services.label": "Usługi",
+        "services.title": "Co Oferuję",
+        "services.bots": "Boty Discord",
+        "services.bugs": "Naprawa Błędów",
+        "services.panels": "Dashboardy",
+        "services.api": "Backend APIs",
+        "services.hosting": "Hosting i Deploy",
+        "services.automation": "Automatyzacja"
+      },
+      ru: {
+        "hero.tag": "Открыт для Проектов",
+        "hero.desc": "Full-stack разработчик систем автоматизации и ботов для растущих сообществ.",
+        "hero.discord": "Discord",
+        "hero.website": "Сайт",
+        "projects.label": "Проекты",
+        "projects.title": "Что Я Создаю",
+        "projects.invite": "Пригласить Бота",
+        "projects.lemon.tagline": "Бесплатный Хостинг — Без Карты",
+        "projects.lemon.role": "Владелец + Dev",
+        "projects.lemon.desc": "Ваш Discord бот 24/7 бесплатно. Бесплатный хостинг для всех.",
+        "projects.lemon.cta": "🚀 Начать Бесплатно",
+        "projects.adfinity.tagline": "Помощник Роста",
+        "projects.adfinity.role": "Владелец + Dev",
+        "projects.adfinity.desc": "Smart Bumps • Partner Logs • Бесплатная Аналитика",
+        "projects.adfinity.premium": "✨ Премиум: Auto-Bump + Auto-Partner + Брендинг",
+        "projects.adking.tagline": "Продвигай Без Ограничений",
+        "projects.adking.role": "Глава Разработки",
+        "projects.adking.desc": "Охватите 16,000+ участников мгновенно.",
+        "skills.label": "Экспертиза",
+        "skills.title": "Технологии",
+        "skills.languages": "Языки",
+        "skills.frameworks": "Фреймворки",
+        "skills.databases": "Базы Данных",
+        "skills.platforms": "Платформы",
+        "services.label": "Услуги",
+        "services.title": "Что Я Предлагаю",
+        "services.bots": "Discord Боты",
+        "services.bugs": "Исправление Ошибок",
+        "services.panels": "Дашборды",
+        "services.api": "Backend APIs",
+        "services.hosting": "Хостинг и Деплой",
+        "services.automation": "Автоматизация"
+      }
+    };
+
+    // Language switcher
+    function setLanguage(lang) {
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          element.textContent = translations[lang][key];
+        }
+      });
+      localStorage.setItem('preferredLanguage', lang);
+      document.documentElement.lang = lang;
+    }
+
+    // Theme switcher
+    function setTheme(isDark) {
+      document.body.classList.toggle('light-mode', !isDark);
+      document.getElementById('themeToggle').textContent = isDark ? '🌙' : '☀️';
+      localStorage.setItem('preferredTheme', isDark ? 'dark' : 'light');
+    }
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Initialize preferences
+    const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
+    const savedTheme = localStorage.getItem('preferredTheme');
+    const prefersDark = savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    document.getElementById('langSelect').value = savedLanguage;
+    setLanguage(savedLanguage);
+    setTheme(prefersDark);
+
+    // Event listeners
+    document.getElementById('langSelect').addEventListener('change', (e) => {
+      setLanguage(e.target.value);
+    });
+
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const isCurrentlyDark = !document.body.classList.contains('light-mode');
+      setTheme(!isCurrentlyDark);
+    });
+
+    // Detect system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('preferredTheme')) {
+        setTheme(e.matches);
+      }
+    });
+  </script>
 </body>
 </html>
+
